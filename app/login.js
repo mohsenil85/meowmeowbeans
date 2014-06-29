@@ -7,6 +7,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('./db');
 
+require('./auth.js')(passport);
 var login = express();
 
 login.use(session({ 
@@ -18,15 +19,28 @@ login.use(session({
 login.use(passport.initialize());
 login.use(passport.session());
 login.use(flash());
+login.use(bodyParser.json());
+login.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 login
-  .get('/', function(req,res){
-    console.log(req.flash());
-    res.send({message: "get login page"});
+  .post('/', 
+        passport.authenticate('auth'),
+        function (req, res){
+          res.send(200);
   })
-  .post('/', function(req, res){
-    res.send({message: "post login page"});
-  });
+  .post('/new', 
+       passport.authenticate('signup'),
+       function(req, res){
+         res.send(200);
+       });
+//  .post('/signup',// passport.authenticate('local-signup'),
+//    function(req, res){
+//      console.log(req);
+//      //res.json(req.name);
+//      res.send(200);
+//  });
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){

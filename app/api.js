@@ -15,6 +15,7 @@ router.route('/users')
     var user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
+    user.password = user.generateHash(req.body.password);
     user.save(function(err){
       if (err) res.send(err);
       res.json({message: "User Created"});
