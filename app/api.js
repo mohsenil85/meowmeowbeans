@@ -4,10 +4,7 @@ var mongoose = require('mongoose');
 var router = express.Router();
 var db = require('./db');
 
-var connection = require('./db').connection;
-
-var UserSchema = require('./db').UserSchema;
-var User = require('./db').User;
+var User = require('./db');
 
 router.get('/', function(req, res){
   res.json({foo:"bar"});
