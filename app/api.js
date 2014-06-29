@@ -13,7 +13,7 @@ router.get('/', function(req, res){
 router.route('/users')
   .post(function (req, res){
     var user = new User();
-    user.name = req.body.name;
+    user.username = req.body.username;
     user.email = req.body.email;
     user.password = user.generateHash(req.body.password);
     user.save(function(err){
@@ -28,15 +28,15 @@ router.route('/users')
     });
   });
 
-router.route('/users/:userName')
+router.route('/users/:username')
   .get(function(req, res){
-    User.find({name: req.params.userName}, function(err, user){
+    User.find({name: req.params.username}, function(err, user){
       if(err) res.send(err);
       res.json(user);
     });
   })
   .post(function(req, res){
-    User.findOne({name: req.params.userName}, function(err, user){
+    User.findOne({username: req.params.username}, function(err, user){
       if(err) res.send(err);
       var arr = user.votes;
       arr.push(req.body.vote);

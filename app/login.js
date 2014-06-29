@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
 var passport = require('passport');
+var request = require('request');
 var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('./db');
@@ -29,18 +30,7 @@ login
         passport.authenticate('auth'),
         function (req, res){
           res.send(200);
-  })
-  .post('/new', 
-       passport.authenticate('signup'),
-       function(req, res){
-         res.send(200);
-       });
-//  .post('/signup',// passport.authenticate('local-signup'),
-//    function(req, res){
-//      console.log(req);
-//      //res.json(req.name);
-//      res.send(200);
-//  });
+  });
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
