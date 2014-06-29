@@ -1,37 +1,13 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var flash = require('connect-flash');
-var passport = require('passport');
+var mongoose = require('mongoose');
+var router = express.Router();
+var db = require('./db');
 
 var connection = require('./db').connection;
+
 var UserSchema = require('./db').UserSchema;
 var User = require('./db').User;
-
-var login = express();
-
-login.use(session({ 
-  secret: 'dkj2jk@*@&*&@#*@HJHJKDHSJjhsdjkhfk',
-  //um what the fuck do these do?
-  saveUninitialized: true,
-  resave: true
-}));
-login.use(passport.initialize());
-login.use(passport.session());
-login.use(flash());
-
-module.exports = login;
-/*
-var connection = mongoose.connect('mongodb://localhost/api');
-var Schema = mongoose.Schema;
-
-var userSchema = new Schema({
-  name: String,
-  email : String,
-  votes: Array
-});
-
-var User = mongoose.model('User', userSchema);
 
 router.get('/', function(req, res){
   res.json({foo:"bar"});
@@ -75,4 +51,5 @@ router.route('/users/:userName')
 
   });
 
-*/
+
+module.exports = router;

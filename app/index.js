@@ -1,7 +1,7 @@
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var api = require('./db');
+var api = require('./api');
 var login = require('./login');
 var app = express();
 
