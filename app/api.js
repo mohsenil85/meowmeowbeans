@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var router = express.Router();
 
-var User = require('./db');
+var User = require('./model');
 
 router.get('/', function(req, res){
   res.json({foo:"bar"});

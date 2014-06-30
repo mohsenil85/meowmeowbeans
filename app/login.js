@@ -6,7 +6,7 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var User = require('./db');
+var User = require('./model');
 
 require('./auth.js')(passport);
 var login = express();
