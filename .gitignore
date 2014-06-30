@@ -47,3 +47,4 @@ vendor
 db/mongodb*
 
 dist
+*.log
