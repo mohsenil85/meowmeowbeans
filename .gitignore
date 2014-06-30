@@ -44,5 +44,6 @@ bower_components
 .sass-cache
 node_modules
 vendor
-db/mongodb/
-!db/mongodb/README.md
+db/mongodb*
+
+dist

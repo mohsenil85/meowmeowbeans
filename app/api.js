@@ -30,17 +30,20 @@ router.route('/users')
 
 router.route('/users/:username')
   .get(function(req, res){
-    User.find({name: req.params.username}, function(err, user){
+    User.findOne({username: req.params.username}, function(err, user){
       if(err) res.send(err);
-      res.json(user);
+      console.log(user);
+      if (user){
+        res.json(user);
+      } else {
+        res.send(404);
+      }
     });
   })
   .post(function(req, res){
     User.findOne({username: req.params.username}, function(err, user){
       if(err) res.send(err);
-      var arr = user.votes;
-      arr.push(req.body.vote);
-      user.votes = arr;
+      user.votes.push(req.body.vote);
       user.save(function(err){
         if(err) res.send(err);
         res.json({message: "Vote Added"});

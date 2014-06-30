@@ -7,7 +7,7 @@ module.exports = function(passport){
   });
 
   passport.deserializeUser(function(name, done){
-    User.find({username: name}, function (err, user){
+    User.findOne({username: name}, function (err, user){
       done(err, user);
     });
   });
@@ -22,7 +22,6 @@ module.exports = function(passport){
       if(!user.validPassword(password)){
         return done(null, false, {message: 'Incorrect password'});
       }
-      console.log(username);
       return done(null, user);
     });
   }));
