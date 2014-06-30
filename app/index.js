@@ -1,4 +1,5 @@
 var express = require('express');
+var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
@@ -7,6 +8,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes');
+require('./util');
 
 require('./auth.js')(passport);
 var app = express();
@@ -25,6 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
+app.use(logger('dev'));
 
 app
   .post('/auth', 
@@ -60,7 +63,9 @@ app.use(function(req, res, next){
 })
 
 app.use(function(req, res, next){
-  if (req.isAuthenticated()){
+    if (req.url === '/' || req.url.endsWith('.css') || req.url.startsWith('/fonts')) {
+        return next();
+    } else if (req.isAuthenticated()){
     return next();
   } else {
     //passport.authenticate('auth')
