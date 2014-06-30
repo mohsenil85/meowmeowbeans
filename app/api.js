@@ -2,16 +2,20 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var router = express.Router();
-var db = require('./db');
 
 var User = require('./db');
 
 router.get('/', function(req, res){
   res.json({foo:"bar"});
+})
+.post('/', function(req, res){
+  console.log(req.body);
+  res.send(200);
 });
 
 router.route('/users')
   .post(function (req, res){
+    console.log(req);
     var user = new User();
     user.username = req.body.username;
     user.email = req.body.email;
