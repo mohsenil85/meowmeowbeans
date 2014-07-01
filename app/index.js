@@ -43,38 +43,38 @@ app
     req.logout();
     res.send(204) ;
     } else {
-      //res.send({message : "Not logged int" });
+      res.json({message : "Not logged int" });
       res.send(401);
     }
   })
   .get('/auth',  function(req, res){
     if(req.isAuthenticated()){
-        console.log('loggedin')
+        console.log('loggedin');
       res.send(200);
     } else {
-        console.log('notloggedin')
+        console.log('notloggedin');
         res.send(401);
     }
   });
 
 app.use(function(req, res, next){
-    console.log(req.user)
+    console.log(req.user);
     return next();
-})
+});
 
+/*
 app.use(function(req, res, next){
-    if (req.url === '/' || req.url.endsWith('.css') || req.url.startsWith('/fonts')) {
+    if (!req.url.startsWith('/api')) {
         return next();
     } else if (req.isAuthenticated()){
     return next();
   } else {
-    //passport.authenticate('auth')
     console.log('foobar1000');
     //res.send(201)
     res.redirect('/auth');
   }
-})
-
+});
+*/
 app.use('/api', routes);
 app.use(express.static(__dirname + '/../dist'));
 app.listen(8000);
