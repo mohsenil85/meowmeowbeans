@@ -3,58 +3,43 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var router = express.Router();
 
-var User = require('./model');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
-router.get('/', function(req, res){
-  res.json({foo:"bar"});
-})
-.post('/', function(req, res){
-  console.log(req.body);
-  res.send(200);
+require('./auth.js')(passport);
+
+var User = require('./model');;
+
+router.use('/', function(req, res, next){
+    if (req.method === "POST") {
+        passport.authenticate('auth', function(err, user, info){
+            if (err) { return next(err); }
+            if (!user) { return res.send(401); }
+            req.logIn(user, function(err){
+                if(err) return next(err);
+                next();
+            })
+        })(req, res, next)
+    } else {
+        next();
+    }
 });
+  
 
-router.route('/users')
-  .post(function (req, res){
-    console.log(req);
-    var user = new User();
-    user.username = req.body.username;
-    user.email = req.body.email;
-    user.password = user.generateHash(req.body.password);
-    user.save(function(err){
-      if (err) res.send(err);
-      res.json({message: "User Created"});
-    });
-  })
+  router.route('/')
+    .post(function(req, res){
+        res.send(200);
+    })
   .get(function(req, res){
-    User.find(function(err, users){
-      if (err) res.send(err);
-      res.send(users);
-    });
-  });
-
-router.route('/users/:username')
-  .get(function(req, res){
-    User.findOne({username: req.params.username}, function(err, user){
-      if(err) res.send(err);
-      console.log(user);
-      if (user){
-        res.json(user);
+      if (req.user) {
+        res.send(200)
       } else {
-        res.send(404);
+        res.send(401)
       }
-    });
   })
-  .post(function(req, res){
-    User.findOne({username: req.params.username}, function(err, user){
-      if(err) res.send(err);
-      user.votes.push(req.body.vote);
-      user.save(function(err){
-        if(err) res.send(err);
-        res.json({message: "Vote Added"});
-      });
-    });
-
-  });
-
+  .delete(function(req, res){
+      req.logOut();
+      res.send(204);
+  })
 
 module.exports = router;

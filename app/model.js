@@ -2,14 +2,15 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
 
-var connection = mongoose.connect('mongodb://localhost/api');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-  username: String,
-  email : String,
+  username: {
+      type: String,
+      required: true,
+      uniqure: true
+  },
   password: String,
-  votes: Array
 });
 
 
