@@ -33,7 +33,7 @@ router.route('/users')
   });
 
 router.route('/users/:username')
-  .get(function(req, res){
+ .get(function(req, res){
     User.findOne({username: req.params.username}, function(err, user){
       if(err) res.send(err);
       console.log(user);

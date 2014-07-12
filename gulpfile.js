@@ -11,6 +11,7 @@ var js = 'public/js/*.js';
 var css = 'public/css/*.css';
 var fonts = 'public/fonts/*.woff';
 var index = 'public/index.html';
+var templates = 'public/templates/*.html'
 var dest = 'dist';
 
 //linting 
@@ -22,7 +23,7 @@ gulp.task('lint', function(){
 
 //browserify and min js
 gulp.task('jsmin', function(){
-  return gulp.src('public/js/router.js')
+  return gulp.src('public/js/main.js')
     .pipe(browserify())
     .pipe(gulp.dest(dest))
     .pipe(rename('all.min.js'))
@@ -39,6 +40,13 @@ gulp.task('cssmin', function(){
     .pipe(minifyCss())
     .pipe(gulp.dest(dest));
 });
+
+/*
+gulp.task('tpl', function(){
+  return gulp.src(templates)
+    .pipe(gulp.dest(dest + '/templates'));
+});
+*/
 
 gulp.task('html', function(){
   return gulp.src(index)
@@ -63,4 +71,4 @@ gulp.task('serve', function(){
   })
 });
 
-gulp.task('default', ['lint', 'jsmin', 'cssmin', 'html', 'fonts', 'serve', 'watch']);
+gulp.task('default', ['lint', 'jsmin', 'cssmin', 'html',  'fonts', 'serve', 'watch']);
