@@ -31,6 +31,6 @@ app.use(function(req, res, next){
 });
 
 */
-app.use('/', routes);
-//app.use(express.static(__dirname + '/../dist'));
+app.use('/api', routes);
+app.use(express.static(__dirname + '/../public'));
 app.listen(8000);
